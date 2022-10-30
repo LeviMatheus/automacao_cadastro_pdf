@@ -40,8 +40,8 @@ for index, pdf in enumerate(arquivos_pdfs):
 
 print(f'\n# Criado Dataframe com conteudo lido dos PDFs.')
 
-
 #Conectando ao banco
 conexao_sql = conectar_sql("localhost", "root", 'senha')
 criar_base(conexao_sql,'cadastro')
+
 
