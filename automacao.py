@@ -5,13 +5,13 @@ from validar_caminho import caminho_valido
 import re                                                                           #operacoes de Regex
 import pandas as pd                                                                 #Pandas
 
-print(f'\n########## Automação: Cadastro por PDF ############')
+print(f'\n########## Automação: Cadastro por PDF ############\n')
 
 #caminho até a pasta dos PDFS
-caminho_pdfs = 'C:/Users/Gamer - PC/Documents/Códigos/alimentar base por pdf/pdfs/'
+caminho_pdfs = 'C:/Users/Gamer - PC/Documents/Códigos/automacao_cadastro_pdf/pdfs/'
 colunas = ['nome','email','celular','arquivo','conteudo']
-print(f'# Lendo caminho: {caminho_pdfs}')
-print(f'# Criando tabela com as colunas {colunas}')
+print(f'\n# Lendo caminho: {caminho_pdfs}')
+print(f'\n# Criando tabela com as colunas {colunas}')
 #Criando Dataframe que vai conter as informacoes
 dataframe_pdfs = pd.DataFrame([],columns=colunas)
 
@@ -44,6 +44,32 @@ print(f'\n# Criado Dataframe com conteudo lido dos PDFs.')
 conexao_sql = conectar_sql("localhost", "root", '1998')
 criar_base(conexao_sql,'cadastro')
 conexao_sql = conectar_base("localhost", "root", '1998','cadastro')
-#executar_comando(conexao_sql,)
+#Comando de criar a tabela de cadastro
+criar_tabela_cadastro = """
+CREATE TABLE cadastro (
+  cadastro_id INT PRIMARY KEY,
+  nome VARCHAR(200) NOT NULL,
+  email VARCHAR(200) NOT NULL,
+  celular VARCHAR(50) NOT NULL,
+  arquivo VARCHAR(50) NOT NULL,
+  conteudo BLOB
+  );
+ """
+#Criar tabela
+executar_comando(conexao_sql,criar_tabela_cadastro)
+
+#Printar a base de dados
+#print('\n',dataframe_pdfs)
+
+#Iterar a dataframe para preencher a base de dados cadastro
+for indice, registro in dataframe_pdfs.iterrows():
+    #novo registro
+    inserir_novo_cadastro = f"""
+    INSERT INTO cadastro VALUES
+    ({indice},  '{registro['nome']}', '{registro['email']}', '{registro['celular']}', '{registro['arquivo']}', {registro['conteudo']});
+    """
+    #print(f'{indice}:{registro}')
+    #print(f"# Comando: {inserir_novo_cadastro}")
+    executar_comando(conexao_sql,inserir_novo_cadastro)
 
 

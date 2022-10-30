@@ -46,6 +46,6 @@ def executar_comando(conexao, comando):
     try:
         cursor.execute(comando)
         conexao.commit()
-        print(f"SQL: {comando} realizado.")
+        print(f"Comando SQL realizado.")
     except Error as err:
-        print(f"\n!!! Error no comando SQL {comando}: '{err}'")
+        print(f"\n!!! Error no comando SQL {err}")

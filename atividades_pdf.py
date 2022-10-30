@@ -16,10 +16,11 @@ def criar_pdf(nome_extensao,blob):
     arquivo.close()
 
 def pegar_pdfs(caminho):
-    caminhos = [os.path.join(caminho, nome) for nome in os.listdir(caminho)]
+    print(f'#\nColetando arquivos do diretório: {caminho}')
     #pegar os arquivos destas pastas
-    print(f'# Coletando arquivos do diretório: {caminhos}')
+    caminhos = [os.path.join(caminho, nome) for nome in os.listdir(caminho)]
     arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
+    #print(f'# Arquivos: {arquivos}')
     #pegar somente os pdfs
     print(f'# Filtrando somente os PDFs')
     arquivos_pdfs = [arq for arq in arquivos if arq.lower().endswith(".pdf")]
