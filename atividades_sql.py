@@ -1,8 +1,6 @@
 import mysql.connector              #Conector MySql
 from mysql.connector import Error   #Facilitar o gerenciador de erros
 
-pwd = '1998'
-
 #Conectando ao banco de dados
 def conectar_sql(host, nome_usuario, senha):
     print(f"\n# Conectando ao host: {host} ...")
@@ -11,11 +9,26 @@ def conectar_sql(host, nome_usuario, senha):
         conexao = mysql.connector.connect(
             host=host,
             user=nome_usuario,
-            passwd=pwd
+            passwd=senha
         )
         print(f"# Conectado a {host}")
     except Error as err:
         print(f"\n!!! Erro ao tentar conectar ao MySql: '{err}'")
+
+    return conexao
+
+def conectar_base(host, nome_usuario, senha, db):
+    print(f"\n# Conectando à base de dados: {db} ...")
+    try:
+        conexao = mysql.connector.connect(
+            host=host,
+            user=nome_usuario,
+            passwd=senha,
+            database=db
+        )
+        print(f"# Conectado à base de dados: {db}")
+    except Error as err:
+        print(f"\n!!! Erro ao tentar conectar à base de dados: '{db}'")
 
     return conexao
 
@@ -27,3 +40,12 @@ def criar_base(conexao, base):
         print(f'# Base de dados {base} criada com sucesso')
     except Error as err:
         print(f"\n!!! Error ao criar a base de dados {base}: '{err}'")
+
+def executar_comando(conexao, comando):
+    cursor = conexao.cursor()
+    try:
+        cursor.execute(comando)
+        conexao.commit()
+        print(f"SQL: {comando} realizado.")
+    except Error as err:
+        print(f"\n!!! Error no comando SQL {comando}: '{err}'")

@@ -1,6 +1,6 @@
 #atividades PDF
 from atividades_pdf import ler_pdf_binario, criar_pdf, pegar_pdfs, listar_pdfs, extrair_texto      
-from atividades_sql import conectar_sql, criar_base                                          #conectar ao MySql
+from atividades_sql import conectar_sql, criar_base, executar_comando, conectar_base#conectar ao MySql
 from validar_caminho import caminho_valido
 import re                                                                           #operacoes de Regex
 import pandas as pd                                                                 #Pandas
@@ -41,7 +41,9 @@ for index, pdf in enumerate(arquivos_pdfs):
 print(f'\n# Criado Dataframe com conteudo lido dos PDFs.')
 
 #Conectando ao banco
-conexao_sql = conectar_sql("localhost", "root", 'senha')
+conexao_sql = conectar_sql("localhost", "root", '1998')
 criar_base(conexao_sql,'cadastro')
+conexao_sql = conectar_base("localhost", "root", '1998','cadastro')
+#executar_comando(conexao_sql,)
 
 
