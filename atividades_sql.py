@@ -49,3 +49,12 @@ def executar_comando(conexao, comando):
         print(f"Comando SQL realizado.")
     except Error as err:
         print(f"\n!!! Error no comando SQL {err}")
+
+def executar_insert(conexao, comando, parametros):
+    cursor = conexao.cursor()
+    try:
+        cursor.execute(comando, parametros)
+        conexao.commit()
+        print(f"INSERT realizado.")
+    except Error as err:
+        print(f"\n!!! Error no comando INSERT: {err}")
