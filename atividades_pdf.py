@@ -5,6 +5,7 @@ import PyPDF2 as leitor             #leitor PDF
 def ler_pdf_binario(caminho):
     #ler
     with open(caminho, 'rb') as arquivo:
+        #blob = arquivo.read()
         blob = base64.b64encode(arquivo.read())
     return blob
 
@@ -51,3 +52,8 @@ def extrair_texto(pdf):
         raise IOError(f'Erro ao tentar ler PDF {os.getcwd(pdf)}')
 
     return texto_extraido
+
+def nome_pdf(pdf):
+    with open(pdf, 'rb') as arquivo:
+        dados_pdf = leitor.PdfFileReader(arquivo, strict=False)
+        return dados_pdf.getDocumentInfo().title
